@@ -52,9 +52,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY --from=deps /app/.venv /app/.venv
 COPY pyproject.toml /app/
+COPY README.md /app/
 COPY src /app/src
 COPY dashboard /app/dashboard
-COPY data/demo/macro_ipca_selic.parquet /app/data/demo/macro_ipca_selic.parquet
+COPY scripts/gen_demo_panel.py /app/scripts/gen_demo_panel.py
+# Parquet demo não precisa de estar no Git: gera-se no build (clone-and-run).
+RUN mkdir -p /app/data/demo \
+    && cd /app \
+    && PYTHONPATH=/app/src /app/.venv/bin/python /app/scripts/gen_demo_panel.py
 
 EXPOSE 8501
 
