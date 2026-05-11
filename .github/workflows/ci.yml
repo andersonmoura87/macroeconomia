@@ -9,10 +9,10 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v8
         with:
           version: "0.5.11"
 
@@ -37,7 +37,7 @@ jobs:
           docker build -f docker/Dockerfile --build-arg GIT_COMMIT=$GITHUB_SHA --target streamlit .
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-xml
           path: coverage.xml
