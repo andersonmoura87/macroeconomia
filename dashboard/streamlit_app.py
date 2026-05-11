@@ -19,6 +19,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import streamlit as st
+
 from dashboard.charts import macro_line_chart_figure
 from dashboard.data_loader import (
     PanelResolutionError,
@@ -36,6 +37,7 @@ _CACHE_TTL = timedelta(seconds=43200)
 @st.cache_data(ttl=_CACHE_TTL, show_spinner="Carregando painel…", max_entries=8)
 def load_dashboard_polars(parquet_abs: str) -> object:
     import polars as pl
+
     from dashboard.data_loader import validate_panel_contract
 
     p = Path(parquet_abs).resolve()
