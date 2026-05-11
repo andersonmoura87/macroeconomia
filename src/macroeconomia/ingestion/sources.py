@@ -117,7 +117,8 @@ def _parse_wb_date(raw: object) -> date:
     ts = pd.to_datetime(s, errors="coerce")
     if pd.isna(ts):
         raise ValueError(f"Data World Bank não reconhecida: {raw!r}")
-    return ts.date()
+    # Evita cast (redundant-cast em alguns stubs) e Any em .date() (no-any-return noutros).
+    return date(int(ts.year), int(ts.month), int(ts.day))
 
 
 class WbdataSource:
