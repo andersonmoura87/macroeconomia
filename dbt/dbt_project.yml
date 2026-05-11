@@ -1,0 +1,16 @@
+name: "macroeconomia"
+version: "1.0.0"
+config-version: 2
+
+profile: "macroeconomia"
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  macroeconomia:
+    staging:
+      +materialized: view

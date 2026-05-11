@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.5.11"
+
+      - name: Sync
+        run: uv sync --group dev --extra data-sources --extra arima-auto
+
+      - name: Ruff
+        run: uv run ruff check src tests pipelines dashboard scripts
+
+      - name: Black
+        run: uv run black --check src tests pipelines dashboard scripts
+
+      - name: Mypy
+        run: uv run mypy src/macroeconomia
+
+      - name: Pytest + coverage
+        run: uv run pytest --cov=macroeconomia --cov-report=xml --cov-report=term-missing --cov-fail-under=80
+
+      - name: Docker build (targets macro + streamlit)
+        run: |
+          docker build -f docker/Dockerfile --build-arg GIT_COMMIT=$GITHUB_SHA --target macro .
+          docker build -f docker/Dockerfile --build-arg GIT_COMMIT=$GITHUB_SHA --target streamlit .
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+        if: always()

@@ -1,0 +1,39 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: streamlit
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-local}
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-local}
+    environment:
+      MACRO_GIT_COMMIT: ${GIT_COMMIT:-local}
+    env_file:
+      - .env.example
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./mlruns:/app/mlruns
+    working_dir: /app
+
+  macro:
+    profiles: ["pipeline"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: macro
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-local}
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-local}
+    environment:
+      MACRO_GIT_COMMIT: ${GIT_COMMIT:-local}
+    env_file:
+      - .env.example
+    volumes:
+      - ./data:/app/data
+      - ./mlruns:/app/mlruns
+    working_dir: /app

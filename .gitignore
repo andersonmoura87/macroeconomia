@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Env
+.env
+.venv/
+venv/
+env/
+
+# Data (não versionar brutos grandes)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/external/*
+!data/external/.gitkeep
+data/demo/*
+!data/demo/.gitkeep
+*.parquet
+!data/demo/macro_ipca_selic.parquet
+*.duckdb
+*.db
+
+# MLflow / experimentos locais
+mlruns/
+mlartifacts/
+
+# Prefect
+.prefect/
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/

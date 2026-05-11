@@ -1,0 +1,7 @@
+macroeconomia:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../data/processed/analytics.duckdb
+      threads: 4
