@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Literal, Protocol, cast, runtime_checkable
+from typing import Any, Literal, Protocol, runtime_checkable
 
 import httpx
 import pandas as pd
@@ -117,7 +117,7 @@ def _parse_wb_date(raw: object) -> date:
     ts = pd.to_datetime(s, errors="coerce")
     if pd.isna(ts):
         raise ValueError(f"Data World Bank não reconhecida: {raw!r}")
-    return cast(date, ts.date())
+    return ts.date()
 
 
 class WbdataSource:
